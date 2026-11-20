@@ -1,0 +1,21 @@
+{
+  "name": "hackable-piece-1",
+  "version": "1.0.0",
+  "description": "First visual concept only. No live diagnostics.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "dependencies": {
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.1"
+  },
+  "private": true
+}
