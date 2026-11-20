@@ -4,11 +4,19 @@ import { lookupAddress } from './lookup.mjs';
 import { readBrowser } from './browser.mjs';
 import { readDevice, readGraphics } from './device.mjs';
 import { canvasSample, audioSample } from './fingerprint.mjs';
+import { readConnection } from './connection.mjs';
 function Sun(){return <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>}
 function Moon(){return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></svg>}
 export default function Page(){
  const [light,setLight]=useState(false);
  const [browser,setBrowser]=useState(null);
+ const [connection,setConnection]=useState(null);
+ useEffect(()=>{
+  const update=()=>setConnection(readConnection(navigator,location,window.isSecureContext));
+  update();const net=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  net?.addEventListener?.('change',update);
+  return ()=>net?.removeEventListener?.('change',update);
+ },[]);
  const [canvas,setCanvas]=useState(null);
  const [audio,setAudio]=useState(null);
  useEffect(()=>{
@@ -65,9 +73,13 @@ export default function Page(){
     <p>I can do something similar with sound, without playing any. A short oscillator and compressor run in an offline audio buffer. {audio?audio.hash?<>The sample digest is <em className="hash-reading">{audio.hash}</em></>:<>That sample is <em>unavailable here.</em></>:<>That sample is still being calculated.</>}</p>
     <p>These digests describe the output of these particular tests, <em>not a secret serial number.</em> Another browser might produce the same result. An update or privacy protection might change yours. I haven&apos;t proved that either one can identify you.</p>
     <p>But that&apos;s the move: compare enough small clues and see whether a browser looks familiar. No login needed to collect them. No claim that this page has tracked you anywhere.</p>
+    <p>Now I&apos;d look at the route, not just the browser. {connection?.protocol==='https:'?<>This page arrived over <em>HTTPS</em>. That encrypts this connection to the site. It doesn&apos;t make the site honest, or tell me how the Wi-Fi is configured.</>:connection?.protocol==='http:'?<>This page itself arrived over <em>HTTP, not HTTPS.</em> That page connection is not protected by HTTPS, even if the separate IP lookup uses it.</>:<>This page&apos;s transport is <em>not measured yet.</em></>}</p>
+    {connection&&<p className="connection-result">{connection.supported?<>The browser&apos;s network hints say <em>{connection.type || 'connection type not reported'}</em>{connection.effectiveType?<>, with <em>{connection.effectiveType}</em>-class effective performance</>:null}. {connection.downlink!==null?<>Downlink estimate: <em>{connection.downlink} Mbps</em>. </>:null}{connection.rtt!==null?<>Round-trip estimate: <em>{connection.rtt} ms</em>. </>:null}These are rounded browser estimates, not a speed test or a security finding. A 4g label here does not mean you&apos;re on a mobile network.</>:<>This browser doesn&apos;t expose network estimates. <em>No reading</em> is not the same as a safe connection.</>}</p>}
+    <p>If this were shared Wi-Fi, I&apos;d care about what crosses it unencrypted. HTTPS is built to protect page contents from an ordinary network eavesdropper. It doesn&apos;t stop a fake login page from asking you to hand over a password. I can&apos;t inspect this hotspot&apos;s encryption, its owner or the other devices from this page.</p>
+    <p>And here the browser&apos;s view runs out. <em>TLS cipher, ClientHello fingerprint, DNS-resolver leak, open ports: not measured.</em> Neither are your router&apos;s settings, a VPN&apos;s trustworthiness or whether this device is compromised. A list of readings is not a clean bill of health.</p>
     <p>Being recognisable isn&apos;t the same as being hacked. An address isn&apos;t an open door. A fingerprint isn&apos;t a password. The interesting question is what someone can learn, what they can actually use, and <em>where the trail ends.</em></p>
     <p className="closing">That&apos;s what we&apos;re here to look at.<br/>A mirror. <i>Not an attack.</i></p>
-    <p className="privacy-note">This reading asks <a href="https://ipapi.co/privacy/" target="_blank" rel="noreferrer">ipapi.co</a> for your public IP, approximate area and provider. That service receives your IP to answer. The service may keep request logs under its privacy policy. This page keeps the result only in page memory and sends it nowhere else. Your theme choice stays in this tab&apos;s session storage. Language, screen, time-zone, device and graphics readings stay on this page; they are not added to the IP request. Canvas and offline-audio sample digests also stay in memory. They are not stored, transmitted or combined into an identity.</p>
+    <p className="privacy-note">This reading asks <a href="https://ipapi.co/privacy/" target="_blank" rel="noreferrer">ipapi.co</a> for your public IP, approximate area and provider. That service receives your IP to answer. The service may keep request logs under its privacy policy. This page keeps the result only in page memory and sends it nowhere else. Your theme choice stays in this tab&apos;s session storage. Language, screen, time-zone, device, graphics and network-estimate readings stay on this page; they are not added to the IP request. Canvas and offline-audio sample digests also stay in memory. They are not stored, transmitted or combined into an identity.</p>
    </article>
   </main>
   <footer><span>how hackable are you?</span><span>Public IP + browser clues</span></footer>
