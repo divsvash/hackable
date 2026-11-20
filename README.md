@@ -64,3 +64,5 @@ Browser-setting references:
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
 
 Device readings are labels and estimates, not exact browser, OS or physical GPU identification. Missing values remain unknown.
+
+Canvas and offline-audio digests stay in page memory. Neither uniqueness nor cross-session stability is established. Audio plays no sound.
