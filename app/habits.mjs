@@ -14,3 +14,4 @@ export const habits={
  connect:'Curiosity gives an attacker an opening. An unfamiliar device can carry malicious files or behave as something other than storage. Do not plug it into your own computer to identify its owner. Hand it to staff or IT instead.',
  avoid:'You leave the device disconnected. That denies this attempt a place to start. Staff or IT can handle it under their own procedures; you do not need to test it yourself.'}}
 };
+export function habitResponse(kind,value){const h=Object.hasOwn(habits,kind)?habits[kind]:null;return h?(Object.hasOwn(h.responses,value)?h.responses[value]:h.responses.unknown):null}
