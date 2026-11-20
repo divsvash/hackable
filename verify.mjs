@@ -8,7 +8,7 @@ try{
  await page.goto('http://127.0.0.1:8765',{waitUntil:'networkidle'});
  await page.waitForFunction(()=>!document.querySelector('.pending'),{timeout:12000});
  console.log('Live provider check:',await page.locator('.live-result').count()?'answered':'unavailable; graceful fallback shown');
- await page.route('https://ipapi.co/json/',route=>route.fulfill({json:{ip:'203.0.113.42',region:'Example region',country_name:'Example country',org:'Example network',asn:'AS64500'}}));
+ await page.route('https://ipapi.co/json/',route=>route.fulfill({json:{ip:'2001:db8:abcd:1234:5678:90ab:cdef:1234',region:'Example region',country_name:'Example country',org:'Example network',asn:'AS64500'}}));
  for(const [name,w,h] of [['phone',390,844],['desktop',1440,1000],['small-phone',320,740]]){
   await page.setViewportSize({width:w,height:h});await page.reload({waitUntil:'networkidle'});await page.evaluate(()=>document.fonts.ready);await page.locator('.live-result').waitFor();
   await page.locator('.scope-note').evaluate(el=>el.textContent='Review capture: simulated IP response. Live lookup is wired in the code.');
