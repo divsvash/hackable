@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {isPublicAddressValue,parseLookup,lookupAddress} from './app/lookup.mjs';
-test('accept IPv4 and IPv6 syntax',()=>{for(const ip of ['203.0.113.42','2001:db8::42','::1'])assert.equal(isPublicAddressValue(ip),true)});
-test('reject malformed and injected values',()=>{for(const ip of ['',null,'300.1.1.1','01.2.3.4','<script>','2001::db8::2','::x'])assert.equal(isPublicAddressValue(ip),false)});
+import {isIPAddressValue,parseLookup,lookupAddress} from './app/lookup.mjs';
+test('accept IPv4 and IPv6 syntax',()=>{for(const ip of ['203.0.113.42','2001:db8::42','::1'])assert.equal(isIPAddressValue(ip),true)});
+test('reject malformed and injected values',()=>{for(const ip of ['',null,'300.1.1.1','01.2.3.4','<script>','2001::db8::2','::x'])assert.equal(isIPAddressValue(ip),false)});
 test('missing provider and area are unknown, not invented',()=>{assert.deepEqual(parseLookup({ip:'203.0.113.42'}),{ip:'203.0.113.42',area:null,provider:null,asn:null})});
 test('reject provider error bodies',()=>assert.throws(()=>parseLookup({ip:'203.0.113.42',error:true})));
 test('extract limited coarse fields and discard unrelated data',()=>{assert.deepEqual(parseLookup({ip:'203.0.113.42',region:'Example region',country_name:'Example country',org:'Example ISP',asn:'AS64500',latitude:1,longitude:2}),{ip:'203.0.113.42',area:'Example region, Example country',provider:'Example ISP',asn:'AS64500'})});
