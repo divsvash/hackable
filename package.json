@@ -1,11 +1,12 @@
 {
   "name": "hackable-piece-1",
   "version": "1.0.0",
-  "description": "First visual concept only. No live diagnostics.",
+  "description": "A live browser reconnaissance essay, built as a static Next.js export.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node --test *.test.mjs"
   },
   "keywords": [],
   "license": "ISC",
