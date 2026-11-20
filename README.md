@@ -1,6 +1,6 @@
 # How hackable are you?
 
-Piece 1: one automatic public-IP reading inside the approved continuous serif article. Nothing is deployed or pushed.
+Piece 2 review: browser-reported language preferences, screen size, pixel ratio and time zone, added inline to the approved article. Piece 1 public-IP reading remains unchanged. Nothing is deployed or pushed.
 
 ## What works
 
@@ -11,7 +11,7 @@ Piece 1: one automatic public-IP reading inside the approved continuous serif ar
 - Results arrive inline with an eight-second timeout, response validation and a plain-language failure state. Missing values remain unknown. No retry loop.
 - No cookies or referrer are sent with the lookup. Results stay in page memory. The provider receives the IP to answer and may keep request logs under its privacy policy: https://ipapi.co/privacy/.
 
-This is not a complete scanner or a security assessment. It cannot expose a hidden IP behind a VPN, prove identity, establish GPS location or grade network security. No device fingerprinting, STUN, TLS endpoint, DNS test or later layer has been implemented. Browser-fingerprint paragraphs are explanatory copy, not claims that this piece measured those signals.
+This is not a complete scanner or a security assessment. It cannot expose a hidden IP behind a VPN, prove identity, establish GPS location or grade network security. No fingerprint hash, uniqueness test, STUN, TLS endpoint, DNS test or later layer has been implemented. The browser reports settings locally, without sending these measurements to the IP service. These values may be changed or reduced by privacy settings. Time zone is not proof of location; language is not nationality.
 
 ## Run
 
@@ -34,18 +34,20 @@ The included `out/` directory is already built and can be served without install
 ## Test
 
 ```sh
-node --test lookup.test.mjs
+node --test lookup.test.mjs browser.test.mjs
 node verify.mjs
 ```
 
 `verify.mjs` needs Chrome at `/usr/bin/google-chrome` or an adjusted executable path. It first checks the actual provider, then intercepts its response with reserved example data for deterministic screenshots and tests a rate-limit response. Screenshots explicitly say the response is simulated. No visitor IP or location is included in the review captures.
 
-Checked: full-length IPv6 results wrap at phone widths; seven unit tests; live browser request answered; 320/390/1440px layouts without overflow; tab theme persistence; HTTP 429 fallback; no page errors. Final phone dark/light renders visually inspected.
+Checked: full-length IPv6 results wrap at phone widths; twelve unit tests; live browser request answered; 320/390/1440px layouts without overflow; tab theme persistence; HTTP 429 fallback; no page errors. Final phone dark/light renders visually inspected.
 
 ## Files
 
 - `app/page.js`: continuous article, loading/result/error UI, theme switch
 - `app/lookup.mjs`: request options and response validation
+- `app/browser.mjs`: defensive browser-setting reads
+- `browser.test.mjs`: missing, blocked and limited setting tests
 - `app/globals.css`: responsive serif styling and reduced-motion support
 - `app/layout.js`: metadata and initial theme
 - `public/fonts/`: local fonts and license
@@ -55,3 +57,8 @@ Checked: full-length IPv6 results wrap at phone widths; seven unit tests; live b
 
 IP geolocation documentation: https://ipapi.co/api/.
 Fingerprinting background: https://developer.mozilla.org/en-US/docs/Glossary/Fingerprinting.
+
+Browser-setting references:
+- https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
+- https://developer.mozilla.org/en-US/docs/Web/API/Screen/width
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
