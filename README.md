@@ -1,52 +1,57 @@
-# how hackable are you?
+# How hackable are you?
 
-Piece 1, revised: a continuous serif reading experience, for review. Nothing is deployed.
+Piece 1: one automatic public-IP reading inside the approved continuous serif article. Nothing is deployed or pushed.
 
-## What exists
+## What works
 
-- A Next.js page configured for static export.
-- Locally hosted Cormorant Garamond in regular, medium and italic, with its OFL license.
-- A continuous article with illustrative values inline. No cards, numbered sections or separating lines.
-- Pitch-black and off-white themes, bright pink accents, centered text.
-- A working top-right theme switch. The selected theme stays for the browser tab's session.
-- One explicitly labeled sample reading, using a documentation-only IP address.
+- Next.js static export, with Cormorant Garamond bundled locally under the included OFL license.
+- Pitch-black and off-white themes, pink keywords, centered reading flow. No cards, dividers, tabs or reveal buttons.
+- The top-right theme switch remembers its state for the browser tab session.
+- On load, one request to https://ipapi.co/json/ resolves the public IP, approximate region/country, listed network provider and ASN.
+- Results arrive inline with an eight-second timeout, response validation and a plain-language failure state. Missing values remain unknown. No retry loop.
+- No cookies or referrer are sent with the lookup. Results stay in page memory. The provider receives the IP to answer and may keep request logs under its privacy policy: https://ipapi.co/privacy/.
 
-This is not a scanner. It reads no device fingerprint, makes no IP lookup, contacts no diagnostic service, and requests no permissions. No endpoint or later layer is included. The sample reading is not the visitor's IP address.
+This is not a complete scanner or a security assessment. It cannot expose a hidden IP behind a VPN, prove identity, establish GPS location or grade network security. No device fingerprinting, STUN, TLS endpoint, DNS test or later layer has been implemented. Browser-fingerprint paragraphs are explanatory copy, not claims that this piece measured those signals.
 
-## Run locally
+## Run
 
-Requires Node.js 20.9 or newer and npm.
+Requires Node.js 20.9+ and npm.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the local address printed by Next.js.
-
-## Build the static page
+Open the local address Next.js prints. Or build and serve:
 
 ```sh
 npm run build
 python3 -m http.server 8000 --directory out
 ```
 
-Open http://localhost:8000. The included `out/` folder is already built and can be served without installing Node dependencies.
+The included `out/` directory is already built and can be served without installing Node dependencies. Open http://localhost:8000.
+
+## Test
+
+```sh
+node --test lookup.test.mjs
+node verify.mjs
+```
+
+`verify.mjs` needs Chrome at `/usr/bin/google-chrome` or an adjusted executable path. It first checks the actual provider, then intercepts its response with reserved example data for deterministic screenshots and tests a rate-limit response. Screenshots explicitly say the response is simulated. No visitor IP or location is included in the review captures.
+
+Checked: seven unit tests; live browser request answered; 320/390/1440px layouts without overflow; tab theme persistence; HTTP 429 fallback; no page errors. Final phone dark/light renders visually inspected.
 
 ## Files
 
-- `app/page.js`: visual composition and theme switch
-- `app/globals.css`: responsive layout, colors, typography and reduced-motion handling
-- `app/layout.js`: page metadata and session theme initialization
-- `next.config.mjs`: static export configuration
-- `package.json`, `package-lock.json`: locked dependencies and scripts
-- `out/`: production static export
-- `verify.mjs`: local screenshot and layout checks with Playwright; uses the locally installed Chrome path in this review environment
+- `app/page.js`: continuous article, loading/result/error UI, theme switch
+- `app/lookup.mjs`: request options and response validation
+- `app/globals.css`: responsive serif styling and reduced-motion support
+- `app/layout.js`: metadata and initial theme
+- `public/fonts/`: local fonts and license
+- `lookup.test.mjs`, `verify.mjs`: unit and browser checks
+- `next.config.mjs`, `package.json`, `package-lock.json`: export configuration and dependencies
+- `out/`: static production build
 
-## Checked
-
-Production build completed. Checked at 320, 390 and 1440 CSS pixels wide, with no horizontal page overflow. Theme persistence passed. Phone dark/light and desktop dark screenshots were visually inspected. Browser console showed no page errors during the checks.
-
-## Scope boundary
-
-This is the first visual direction, not the finished product. No live result or security grade is shown. Scan behavior, data handling, server diagnostics and later layers need their own review before implementation.
+IP geolocation documentation: https://ipapi.co/api/.
+Fingerprinting background: https://developer.mozilla.org/en-US/docs/Glossary/Fingerprinting.
