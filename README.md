@@ -1,10 +1,12 @@
 # how hackable are you?
 
-Piece 1: the visual concept, for review. Nothing is deployed.
+Piece 1, revised: a continuous serif reading experience, for review. Nothing is deployed.
 
 ## What exists
 
 - A Next.js page configured for static export.
+- Locally hosted Cormorant Garamond in regular, medium and italic, with its OFL license.
+- A continuous article with illustrative values inline. No cards, numbered sections or separating lines.
 - Pitch-black and off-white themes, bright pink accents, centered text.
 - A working top-right theme switch. The selected theme stays for the browser tab's session.
 - One explicitly labeled sample reading, using a documentation-only IP address.
