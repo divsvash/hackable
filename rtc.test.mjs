@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {candidateInfo,localCandidates} from './app/rtc.mjs';
+test('parse host IP and mDNS candidates',()=>{assert.deepEqual(candidateInfo({candidate:'candidate:1 1 udp 1 192.0.2.1 1234 typ host'}),{type:'host',address:'192.0.2.1',kind:'ip'});assert.equal(candidateInfo({address:'abc-123.local',type:'host'}).kind,'mdns')});
+test('reject malformed candidate text',()=>assert.equal(candidateInfo({address:'<script>',type:'host'}),null));
+test('unsupported is not treated as a leak-free pass',async()=>assert.equal((await localCandidates(null)).status,'unsupported'));
+test('candidate collection times out and closes without any ICE server',async()=>{let closed=false;class Stuck{constructor(config){assert.deepEqual(config.iceServers,[])}createDataChannel(){}createOffer(){return new Promise(()=>{})}close(){closed=true}}const x=await localCandidates(Stuck,{timeoutMs:10});assert.equal(x.status,'timeout');assert.equal(closed,true)});
+test('abort cleans up candidate gathering',async()=>{let closed=false;class Stuck{createDataChannel(){}createOffer(){return new Promise(()=>{})}close(){closed=true}}const c=new AbortController();const p=localCandidates(Stuck,{signal:c.signal});c.abort();assert.equal((await p).status,'cancelled');assert.equal(closed,true)});

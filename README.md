@@ -1,17 +1,29 @@
 # How hackable are you?
 
-Piece 2 review: browser-reported language preferences, screen size, pixel ratio and time zone, added inline to the approved article. Piece 1 public-IP reading remains unchanged. Nothing is deployed or pushed.
+Layer 1 browser-side build for review. The public repository currently contains pieces 1 and 2 only. Later changes in this archive are local and unpushed pending approval. No website has been deployed.
 
-## What works
+## Built locally
 
-- Next.js static export, with Cormorant Garamond bundled locally under the included OFL license.
-- Pitch-black and off-white themes, pink keywords, centered reading flow. No cards, dividers, tabs or reveal buttons.
-- The top-right theme switch remembers its state for the browser tab session.
-- On load, one request to https://ipapi.co/json/ resolves the public IP, approximate region/country, listed network provider and ASN.
-- Results arrive inline with an eight-second timeout, response validation and a plain-language failure state. Missing values remain unknown. No retry loop.
-- No cookies or referrer are sent with the lookup. Results stay in page memory. The provider receives the IP to answer and may keep request logs under its privacy policy: https://ipapi.co/privacy/.
+The approved continuous Cormorant Garamond essay, pitch-black/off-white switch and inline pink readings remain. Checks start on page load; the app has no reveal buttons.
 
-This is not a complete scanner or a security assessment. It cannot expose a hidden IP behind a VPN, prove identity, establish GPS location or grade network security. No fingerprint hash, uniqueness test, STUN, TLS endpoint, DNS test or later layer has been implemented. The browser reports settings locally, without sending these measurements to the IP service. These values may be changed or reduced by privacy settings. Time zone is not proof of location; language is not nationality.
+- Public IP, approximate region/country, listed network provider and ASN, through one request to ipapi.co.
+- Browser-reported language preferences, time zone, CSS screen dimensions and pixel ratio.
+- Reported user-agent/platform, logical processors available to the browser, rounded memory estimate and graphics-driver renderer label. No exact browser, OS or physical GPU identification is claimed.
+- Fixed canvas-pixel and short offline-audio sample digests using SHA-256. No sound is played. No microphone is opened. These are outputs of specified tests, not proven unique or stable identities.
+- Local WebRTC ICE candidates, classified as visible IP or mDNS hostname. An empty ICE-server list means no external STUN or TURN. This is not a public-route or VPN-leak test.
+- Browser connection type where reported, effective performance class, rounded downlink/RTT estimates and actual page protocol. A 4g performance class does not establish cellular or Wi-Fi. Performance is not a safety score.
+
+## Not measured
+
+No negotiated TLS cipher/version, JA3/JA4, passive TCP fingerprint, authoritative DNS-resolver test, open-port scan, router encryption check, malware check or confirmed VPN detection. No security grade or hack-probability score. No later habit/phishing/breach layers.
+
+TLS ClientHello data needs a diagnostic service observing the actual TLS termination. Passive TCP inference needs packet visibility. Resolver attribution needs a controlled authoritative DNS setup and delegated domain. None is supplied by a Next.js static export.
+
+## Privacy and behavior
+
+The one external HTTP request is https://ipapi.co/json/. It omits credentials and referrer and has an eight-second timeout, no retry loop. The provider receives the public IP and ordinary browser request headers, and may log them under https://ipapi.co/privacy/.
+
+Other results stay in page memory and are not attached to the IP request. No canvas/audio data or digests are uploaded, persisted or combined into an identity. Theme preference alone uses session storage. Local WebRTC gathering is bounded to three seconds and closes its peer object; no remote peer is connected. Offline audio rendering is bounded to 2.5 seconds. Unavailable readings do not become safe verdicts.
 
 ## Run
 
@@ -22,49 +34,57 @@ npm ci
 npm run dev
 ```
 
-Open the local address Next.js prints. Or build and serve:
+Or use the included production export:
 
 ```sh
-npm run build
 python3 -m http.server 8000 --directory out
 ```
 
-The included `out/` directory is already built and can be served without installing Node dependencies. Open http://localhost:8000.
+Open http://localhost:8000. To regenerate `out/`, run `npm run build`. Local HTTP is truthfully labeled HTTP by the page; a browser treating localhost as a secure context does not make its transport HTTPS.
 
-## Test
+## Tests
 
 ```sh
-node --test lookup.test.mjs browser.test.mjs
+node --test '*.test.mjs'
+npm run build
 node verify.mjs
+node verify-l1.mjs
 ```
 
-`verify.mjs` needs Chrome at `/usr/bin/google-chrome` or an adjusted executable path. It first checks the actual provider, then intercepts its response with reserved example data for deterministic screenshots and tests a rate-limit response. Screenshots explicitly say the response is simulated. No visitor IP or location is included in the review captures.
+Browser scripts use `/usr/bin/google-chrome`; adjust the executable path for your machine. The review screenshots use a simulated reserved IP response and actual settings of a test browser, not the user's real readings.
 
-Checked: full-length IPv6 results wrap at phone widths; twelve unit tests; live browser request answered; 320/390/1440px layouts without overflow; tab theme persistence; HTTP 429 fallback; no page errors. Final phone dark/light renders visually inspected.
+Checked: 31 unit tests; production static export; 320/390/1440px layouts; theme persistence; full-length IPv6 wrapping; IP rate-limit/error fallback; unavailable graphics/audio/WebRTC fallback. Browser instrumentation saw one external ipapi GET with no measurement body, no camera/microphone or geolocation API calls, and no page errors. Both themes and focused phone captures were visually inspected. Tests do not establish compatibility with every browser or privacy extension.
 
-## Files
+## Main files
 
-- `app/page.js`: continuous article, loading/result/error UI, theme switch
-- `app/lookup.mjs`: request options and response validation
-- `app/browser.mjs`: defensive browser-setting reads
-- `browser.test.mjs`: missing, blocked and limited setting tests
-- `app/globals.css`: responsive serif styling and reduced-motion support
-- `app/layout.js`: metadata and initial theme
-- `public/fonts/`: local fonts and license
-- `lookup.test.mjs`, `verify.mjs`: unit and browser checks
+- `app/page.js`: continuous essay and inline readings
+- `app/browser.mjs`, `device.mjs`, `fingerprint.mjs`, `connection.mjs`, `rtc.mjs`, `lookup.mjs`: individual measurement modules
+- `app/globals.css`, `app/layout.js`: styling, theme initialization and metadata
+- `public/fonts/`: local fonts and OFL license
+- `*.test.mjs`: unit tests
+- `verify.mjs`, `verify-l1.mjs`: browser regression checks
 - `next.config.mjs`, `package.json`, `package-lock.json`: export configuration and dependencies
-- `out/`: static production build
+- `out/`: production static export
 
-IP geolocation documentation: https://ipapi.co/api/.
-Fingerprinting background: https://developer.mozilla.org/en-US/docs/Glossary/Fingerprinting.
+## Sources
 
-Browser-setting references:
+- https://ipapi.co/api/
+- https://ipapi.co/privacy/
+- https://developer.mozilla.org/en-US/docs/Glossary/Fingerprinting
 - https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
 - https://developer.mozilla.org/en-US/docs/Web/API/Screen/width
+- https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-
-Device readings are labels and estimates, not exact browser, OS or physical GPU identification. Missing values remain unknown.
-
-Canvas and offline-audio digests stay in page memory. Neither uniqueness nor cross-session stability is established. Audio plays no sound.
-
-Effective 4g class is not cellular detection. Throughput and RTT estimates are not security findings; localhost secure context is not HTTPS.
+- https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgent
+- https://developer.mozilla.org/en-US/docs/Web/API/Navigator/deviceMemory
+- https://developer.mozilla.org/en-US/docs/Web/API/Navigator/hardwareConcurrency
+- https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_debug_renderer_info
+- https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext
+- https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest
+- https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate/address
+- https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate/type
+- https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/icecandidate_event
+- https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation
+- https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/rtt
+- https://developer.mozilla.org/en-US/docs/Web/API/Window/isSecureContext
+- https://consumer.ftc.gov/articles/are-public-wi-fi-networks-safe-what-you-need-know
