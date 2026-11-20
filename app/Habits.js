@@ -14,4 +14,7 @@ export default function Habits(){return <div className="habits-flow">
  <p>A station platform. A weak signal. A network name that looks official. I&apos;d wonder whether you check who&apos;s on the other end before joining.</p>
  <Choice kind="wifi"/>
  <p>Being on the same Wi-Fi does not hand me the contents of correctly protected HTTPS traffic. A fake network or portal can still try to persuade you to enter credentials on the wrong site. A padlock protects a connection, <em>not the intentions of the page.</em></p>
+ <p>Then your battery drops to two percent. There&apos;s a USB socket beside the seat in the metro. The question isn&apos;t whether electricity is dangerous. It&apos;s <em>what else that connection allows.</em></p>
+ <Choice kind="charging"/>
+ <p>I won&apos;t tell you that every public charger steals data. USB charging attacks are possible, but that is not evidence that this port is malicious. In a 2023 discussion, <a href="https://www.cisa.gov/news-events/news/applying-secure-design-thinking-events-news" target="_blank" rel="noreferrer">CISA warned against confusing possible attacks with demonstrated real-world cases.</a> A sensible precaution does not need a horror story.</p>
  </div>}
