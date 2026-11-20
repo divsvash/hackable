@@ -4,3 +4,5 @@ article .privacy-note{font-size:15px;line-height:1.45;color:var(--muted);margin-
 .reading{white-space:normal;overflow-wrap:anywhere}
 
 .browser-reading{overflow-wrap:anywhere}.browser-result{animation:arrive .4s ease-out}@media(prefers-reduced-motion:reduce){.browser-result{animation:none}}
+
+.device-reading{display:block;overflow-wrap:anywhere;font-size:.84em;line-height:1.4;margin:14px 0}.device-result,.graphics-result{overflow-wrap:anywhere}
