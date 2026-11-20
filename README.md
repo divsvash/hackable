@@ -1,6 +1,6 @@
 # How hackable are you?
 
-Layer 1 browser-side build for review. The public repository currently contains pieces 1 and 2 only. Later changes in this archive are local and unpushed pending approval. No website has been deployed.
+Layer 2 local review build. The public repository contains the 27 approved Layer 1 commits. Layer 2 changes in this archive are local and unpushed pending approval. No website has been deployed.
 
 ## Built locally
 
@@ -88,3 +88,15 @@ Checked: 31 unit tests; production static export; 320/390/1440px layouts; theme 
 - https://developer.mozilla.org/en-US/docs/Web/API/NetworkInformation/rtt
 - https://developer.mozilla.org/en-US/docs/Web/API/Window/isSecureContext
 - https://consumer.ftc.gov/articles/are-public-wi-fi-networks-safe-what-you-need-know
+
+## Layer 2: optional habits, not an automatic scan
+
+The essay continues into public Wi-Fi, charging and unfamiliar USB accessories. Three optional inline selections tailor advice, default to unknown, stay in React page memory and reset on reload. Reading all guidance requires no interaction. There is no habit score or claim that this page detected physical accessories or prior behavior. No requests are sent when answers change.
+
+Public Wi-Fi copy distinguishes phishing from decrypting correctly protected HTTPS. Charging guidance describes a possible attack path without claiming it is common or that a connected port is malicious. CISA's discussion of unconfirmed juice-jacking reports is explicitly attributed to 2023. Unknown USB advice does not claim every insertion compromises a device.
+
+New files: `app/Habits.js`, `app/habits.mjs`, `habits.test.mjs`, `verify-habits.mjs`. Run `node verify-habits.mjs` to check optional defaults, all answer paths used by review screenshots, no answer-related requests, reset-on-reload, theme persistence and no overflow at 320/390/1440px.
+
+Sources:
+- https://www.cisa.gov/resources-tools/training/protect-physical-security-your-digital-devices
+- https://www.cisa.gov/news-events/news/applying-secure-design-thinking-events-news
