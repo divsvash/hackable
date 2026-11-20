@@ -100,3 +100,14 @@ New files: `app/Habits.js`, `app/habits.mjs`, `habits.test.mjs`, `verify-habits.
 Sources:
 - https://www.cisa.gov/resources-tools/training/protect-physical-security-your-digital-devices
 - https://www.cisa.gov/news-events/news/applying-secure-design-thinking-events-news
+
+
+## Live-blog presentation (local review, not deployed)
+
+The opening types the real public-IP response, then the browser-reported clues in a fixed reading order. A result cannot type before its measurement is available. The provider lookup has an eight-second deadline and no retry. Unavailable results are named, not invented.
+
+After the opening, the essay writes itself from top to bottom. Canvas, audio and WebRTC paragraphs wait for their respective measurement outcomes. Typing is a presentation choice, not evidence of an exploit or a simulated discovery. Prose keeps the original serif layout. There is no automatic scrolling.
+
+Reduced-motion readers get the text without typing. An optional “Show full essay without typing” control also removes the prose animation. The opening disclosure stays visible from the start. The recon-to-attack transition explains how clues could support a phishing pretext without claiming that the page knows a visitor's name, email or password. No phishing messages are sent, credentials requested or attacks performed.
+
+Run `npm test` for the 36 measurement and advice tests. Run `node verify-opening.mjs` after `npm run build` for natural full-page typing completion, delayed and failed lookup handling, reduced-motion behavior, skip control and responsive layout. Its example IP/provider are deliberate test fixtures, clearly labelled in the recording. Other browser measurements in those captures come from the test browser, not a visitor's phone. The earlier regression scripts use reduced motion so their assertions do not depend on typing speed.
