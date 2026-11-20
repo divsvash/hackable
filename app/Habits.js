@@ -17,4 +17,9 @@ export default function Habits(){return <div className="habits-flow">
  <p>Then your battery drops to two percent. There&apos;s a USB socket beside the seat in the metro. The question isn&apos;t whether electricity is dangerous. It&apos;s <em>what else that connection allows.</em></p>
  <Choice kind="charging"/>
  <p>I won&apos;t tell you that every public charger steals data. USB charging attacks are possible, but that is not evidence that this port is malicious. In a 2023 discussion, <a href="https://www.cisa.gov/news-events/news/applying-secure-design-thinking-events-news" target="_blank" rel="noreferrer">CISA warned against confusing possible attacks with demonstrated real-world cases.</a> A sensible precaution does not need a horror story.</p>
+ <p>A cable is one invitation. A drive left behind is another. If I can make you curious enough, I might not need you to visit a website at all.</p>
+ <Choice kind="usb"/>
+ <p>Plugging something in does not mean instant compromise. The outcome depends on the device, permissions, software and any vulnerability involved. But <em>unfamiliar hardware doesn&apos;t earn trust by fitting the socket.</em></p>
+ <p>That&apos;s a different kind of defence. Not hiding every detail. Choosing which things get close enough to matter.</p>
+ <p className="habit-sources">Practical guidance: <a href="https://www.cisa.gov/resources-tools/training/protect-physical-security-your-digital-devices" target="_blank" rel="noreferrer">CISA on physical devices and public charging</a>. These are precautions and your own answers, not findings that any device, cable or network is compromised.</p>
  </div>}
