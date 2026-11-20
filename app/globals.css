@@ -2,3 +2,5 @@
 
 article .privacy-note{font-size:15px;line-height:1.45;color:var(--muted);margin-top:48px}.privacy-note a{color:inherit;text-underline-offset:3px}.live-result{animation:arrive .4s ease-out}.pending{opacity:.8}@keyframes arrive{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}@media(prefers-reduced-motion:reduce){.live-result{animation:none}}
 .reading{white-space:normal;overflow-wrap:anywhere}
+
+.browser-reading{overflow-wrap:anywhere}.browser-result{animation:arrive .4s ease-out}@media(prefers-reduced-motion:reduce){.browser-result{animation:none}}
