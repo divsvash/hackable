@@ -3,11 +3,20 @@ import { useEffect, useState } from 'react';
 import { lookupAddress } from './lookup.mjs';
 import { readBrowser } from './browser.mjs';
 import { readDevice, readGraphics } from './device.mjs';
+import { canvasSample, audioSample } from './fingerprint.mjs';
 function Sun(){return <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>}
 function Moon(){return <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z"/></svg>}
 export default function Page(){
  const [light,setLight]=useState(false);
  const [browser,setBrowser]=useState(null);
+ const [canvas,setCanvas]=useState(null);
+ const [audio,setAudio]=useState(null);
+ useEffect(()=>{
+  let active=true;
+  canvasSample(document,window.crypto?.subtle).then(x=>{if(active)setCanvas(x)});
+  audioSample(window.OfflineAudioContext||window.webkitOfflineAudioContext,window.crypto?.subtle).then(x=>{if(active)setAudio(x)});
+  return ()=>{active=false};
+ },[]);
  const [device,setDevice]=useState(null);
  const [graphics,setGraphics]=useState(null);
  useEffect(()=>{setDevice(readDevice(navigator));setGraphics(readGraphics(document))},[]);
@@ -51,9 +60,14 @@ export default function Page(){
     {device&&<p className="device-result">Its platform label is <em>{device.platform || 'not reported'}</em>. It offers <em>{device.logicalProcessors ?? 'an unknown number of'}</em> logical processors{device.memoryGiB?<> and a rounded memory estimate of <em>{device.memoryGiB} GiB</em></>:<>; the memory estimate is <em>not reported</em></>}. Not an inventory of your machine. Just the version of it your browser lets me see.</p>}
     {graphics&&<p className="graphics-result">The graphics driver {graphics.renderer?<>adds another label: <em className="device-reading">{graphics.renderer}.</em></>:<>doesn&apos;t give me an unmasked renderer here.</>} {graphics.renderer?<>Useful for narrowing things down. Not proof of the graphics card in your hands; a browser can mask it or report a software renderer.</>:<>A missing label could mean a privacy setting, a blocked feature or no WebGL support. It doesn&apos;t prove anything about your safety.</>}</p>}
     <p>I wouldn&apos;t trust any of these labels as an exact browser or OS identity. They can be reduced, shared or spoofed. I&apos;d treat them as <em>leads to check</em>, not a reason to claim I&apos;ve found a vulnerability.</p>
+    <p>Labels can be copied. I&apos;d also want to see <em>how this browser draws.</em> So I draw the same tiny image every time and turn its pixels into a SHA-256 digest.</p>
+    <p className="canvas-result">{canvas?canvas.hash?<>This run produced <em className="hash-reading">{canvas.hash}</em></>:<>The canvas sample is <em>unavailable here.</em></>:<>The canvas sample is being calculated locally.</>}</p>
+    <p>I can do something similar with sound, without playing any. A short oscillator and compressor run in an offline audio buffer. {audio?audio.hash?<>The sample digest is <em className="hash-reading">{audio.hash}</em></>:<>That sample is <em>unavailable here.</em></>:<>That sample is still being calculated.</>}</p>
+    <p>These digests describe the output of these particular tests, <em>not a secret serial number.</em> Another browser might produce the same result. An update or privacy protection might change yours. I haven&apos;t proved that either one can identify you.</p>
+    <p>But that&apos;s the move: compare enough small clues and see whether a browser looks familiar. No login needed to collect them. No claim that this page has tracked you anywhere.</p>
     <p>Being recognisable isn&apos;t the same as being hacked. An address isn&apos;t an open door. A fingerprint isn&apos;t a password. The interesting question is what someone can learn, what they can actually use, and <em>where the trail ends.</em></p>
     <p className="closing">That&apos;s what we&apos;re here to look at.<br/>A mirror. <i>Not an attack.</i></p>
-    <p className="privacy-note">This reading asks <a href="https://ipapi.co/privacy/" target="_blank" rel="noreferrer">ipapi.co</a> for your public IP, approximate area and provider. That service receives your IP to answer. The service may keep request logs under its privacy policy. This page keeps the result only in page memory and sends it nowhere else. Your theme choice stays in this tab&apos;s session storage. Language, screen, time-zone, device and graphics readings stay on this page; they are not added to the IP request. No fingerprint identifier is generated or saved.</p>
+    <p className="privacy-note">This reading asks <a href="https://ipapi.co/privacy/" target="_blank" rel="noreferrer">ipapi.co</a> for your public IP, approximate area and provider. That service receives your IP to answer. The service may keep request logs under its privacy policy. This page keeps the result only in page memory and sends it nowhere else. Your theme choice stays in this tab&apos;s session storage. Language, screen, time-zone, device and graphics readings stay on this page; they are not added to the IP request. Canvas and offline-audio sample digests also stay in memory. They are not stored, transmitted or combined into an identity.</p>
    </article>
   </main>
   <footer><span>how hackable are you?</span><span>Public IP + browser clues</span></footer>
