@@ -8,4 +8,10 @@ function Choice({kind}){
   <p className="habit-response" aria-live="polite" aria-atomic="true">{habitResponse(kind,value)}</p>
  </>
 }
-export default function Habits(){return <div className="habits-flow"/>}
+export default function Habits(){return <div className="habits-flow">
+ <p>So far, I&apos;ve only watched what the browser gives away. If that trail ends, I&apos;d look for a different opening: <em>what you trust when you&apos;re in a hurry.</em></p>
+ <p>This part isn&apos;t a scan. I can&apos;t see your charging cable, your saved hotspots or the USB drive on your desk. Read on without answering, or change a line if you want the advice to fit. <em>No score. No guessed habits.</em></p>
+ <p>A station platform. A weak signal. A network name that looks official. I&apos;d wonder whether you check who&apos;s on the other end before joining.</p>
+ <Choice kind="wifi"/>
+ <p>Being on the same Wi-Fi does not hand me the contents of correctly protected HTTPS traffic. A fake network or portal can still try to persuade you to enter credentials on the wrong site. A padlock protects a connection, <em>not the intentions of the page.</em></p>
+ </div>}
