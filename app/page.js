@@ -32,7 +32,7 @@ export default function Page(){
     <p>Then there&apos;s the browser. The language it prefers. The screen it draws on. The time zone it uses. Small details, ordinary on their own. Together, they can help a website <em>recognise a browser</em> without asking for a name.</p>
     <p>Being recognisable isn&apos;t the same as being hacked. An address isn&apos;t an open door. A fingerprint isn&apos;t a password. The interesting question is what someone can learn, what they can actually use, and <em>where the trail ends.</em></p>
     <p className="closing">That&apos;s what we&apos;re here to look at.<br/>A mirror. <i>Not an attack.</i></p>
-    <p className="privacy-note">This reading asks <a href="https://ipapi.co/privacy/" target="_blank" rel="noreferrer">ipapi.co</a> for your public IP, approximate area and provider. That service receives your IP to answer. This page does not store the result or send it anywhere else. Your theme choice stays in this tab&apos;s session storage. No other checks run in this piece.</p>
+    <p className="privacy-note">This reading asks <a href="https://ipapi.co/privacy/" target="_blank" rel="noreferrer">ipapi.co</a> for your public IP, approximate area and provider. That service receives your IP to answer. The service may keep request logs under its privacy policy. This page keeps the result only in page memory and sends it nowhere else. Your theme choice stays in this tab&apos;s session storage. No other checks run in this piece.</p>
    </article>
   </main>
   <footer><span>how hackable are you?</span><span>Piece one · public IP only</span></footer>
