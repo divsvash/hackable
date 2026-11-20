@@ -62,3 +62,5 @@ Browser-setting references:
 - https://developer.mozilla.org/en-US/docs/Web/API/Navigator/languages
 - https://developer.mozilla.org/en-US/docs/Web/API/Screen/width
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
+
+Device readings are labels and estimates, not exact browser, OS or physical GPU identification. Missing values remain unknown.
