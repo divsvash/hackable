@@ -1,7 +1,7 @@
 import {chromium} from 'playwright';import {spawn} from 'node:child_process';import assert from 'node:assert/strict';
 const server=spawn('python3',['-m','http.server','8765','--bind','127.0.0.1','--directory','out'],{stdio:'ignore'});const browser=await chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
 try{
- const page=await browser.newPage({viewport:{width:390,height:844}});const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
+ const page=await browser.newPage({reducedMotion:'reduce',viewport:{width:390,height:844}});const requests=[],errors=[];page.on('request',r=>requests.push(r.url()));page.on('pageerror',e=>errors.push(e.message));
  await page.route('https://ipapi.co/json/',r=>r.fulfill({json:{ip:'203.0.113.42',org:'Example network'}}));await page.goto('http://127.0.0.1:8765',{waitUntil:'networkidle'});await page.evaluate(()=>document.fonts.ready);await page.waitForTimeout(3200);
  for(const kind of ['wifi','charging','usb'])assert.equal(await page.locator('#habit-'+kind).inputValue(),'unknown');
  const baseline=requests.length;
